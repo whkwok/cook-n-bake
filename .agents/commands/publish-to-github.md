@@ -16,7 +16,7 @@ Publish the Cook & Bake Academy static website to GitHub Pages.
 3. Review site files and confirm no generated local sign-up data is committed.
 4. Stage, commit, and push:
    ```powershell
-   git add README.md AGENTS.md admin.html index.html css data js market-brief.md cook-bake-academy-market-report.html .github/workflows/pages.yml .agents/commands/publish-to-github.md
+   git add README.md AGENTS.md admin.html index.html css data js market-brief.md cook-bake-academy-market-report.html .nojekyll .github/workflows/pages.yml .agents/commands/publish-to-github.md
    git commit -m "Publish Cook and Bake Academy site"
    git push origin main
    ```
