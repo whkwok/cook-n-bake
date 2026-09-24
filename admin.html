@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign-up export · Cook &amp; Bake Academy</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="index.html">Cook <span>&amp;</span> Bake</a>
+    <nav aria-label="Admin navigation"><a href="index.html">Back to website</a></nav>
+  </header>
+  <main id="main" class="admin-main">
+    <p class="eyebrow">This device only</p>
+    <h1>Course sign-ups</h1>
+    <p id="admin-status" aria-live="polite"></p>
+    <button id="export-csv" class="button" type="button">Export CSV</button>
+    <div class="admin-table-wrap">
+      <table>
+        <thead><tr id="admin-head"></tr></thead>
+        <tbody id="admin-body"></tbody>
+      </table>
+    </div>
+    <div id="admin-empty" class="empty-state" hidden>
+      <h2>No sign-ups on this device</h2>
+      <p>Completed sign-ups will appear here.</p>
+    </div>
+  </main>
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
