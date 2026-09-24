@@ -20,7 +20,7 @@ Publish the Cook & Bake Academy static website to GitHub Pages.
    git commit -m "Publish Cook and Bake Academy site"
    git push origin main
    ```
-5. Confirm the GitHub Pages workflow completes successfully.
+5. Confirm the GitHub Pages workflow completes successfully and publishes the `gh-pages` branch.
 6. Share the live URL:
    ```text
    https://whkwok.github.io/cook-n-bake/

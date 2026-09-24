@@ -64,7 +64,7 @@ Expected counts are 20 total, 10 Bakery, and 10 Cooking.
 
 ## Publishing
 
-GitHub Pages is deployed by `.github/workflows/pages.yml` on every push to `main`. The project-level command is documented at `.agents/commands/publish-to-github.md`.
+GitHub Pages is deployed by `.github/workflows/pages.yml` on every push to `main`. The workflow publishes the static site to the `gh-pages` branch. The project-level command is documented at `.agents/commands/publish-to-github.md`.
 
 Before publishing, scan for secrets:
 
