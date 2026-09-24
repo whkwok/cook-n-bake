@@ -1,4 +1,5 @@
 import { openSignup } from './signup.js';
+import { askKnowledgeBase } from './kb-chat.js?v=chatbot3';
 
 const COURSE_URL = 'data/courses.json';
 const REQUIRED_FIELDS = ['code', 'title', 'cat', 'level', 'weeks', 'fee', 'campus', 'img', 'when', 'summary', 'allergens', 'intakes'];
@@ -10,7 +11,7 @@ const emptyState = document.querySelector('#empty-state');
 const searchInput = document.querySelector('#course-search');
 const chips = [...document.querySelectorAll('.chip')];
 const assistant = document.querySelector('#course-assistant');
-const assistantBackdrop = document.querySelector('#assistant-backdrop');
+const chatLauncher = document.querySelector('.chat-launcher');
 const assistantInput = document.querySelector('#assistant-input');
 const assistantLog = document.querySelector('#assistant-log');
 
@@ -88,53 +89,25 @@ function setFilter(category) {
 function openAssistant(trigger) {
   assistantReturnFocus = trigger || document.activeElement;
   assistant.hidden = false;
-  assistantBackdrop.hidden = false;
-  document.body.style.overflow = 'hidden';
+  chatLauncher.hidden = true;
   requestAnimationFrame(() => assistantInput.focus());
 }
 
 function closeAssistant() {
   assistant.hidden = true;
-  assistantBackdrop.hidden = true;
-  document.body.style.overflow = '';
+  chatLauncher.hidden = false;
   assistantReturnFocus?.focus();
 }
 
-function queryTerms(question) {
-  return question.toLowerCase().match(/[a-z0-9$]+/g)?.filter(term => term.length > 1) || [];
-}
-
-function assistantMatches(question) {
-  const terms = queryTerms(question);
-  const budgetMatch = question.match(/(?:under|below|less than|max(?:imum)?|budget)\s*(?:s\$|\$)?\s*(\d{2,4})/i);
-  const budget = budgetMatch ? Number(budgetMatch[1]) : null;
-  const ignored = new Set(['course', 'courses', 'class', 'classes', 'want', 'like', 'about', 'with', 'that', 'the', 'for', 'and', 'under', 'below', 'than']);
-
-  return courses.map(course => {
-    const haystack = searchableText(course);
-    let score = terms.reduce((total, term) => total + (!ignored.has(term) && haystack.includes(term) ? 1 : 0), 0);
-    if (budget !== null) score += course.fee <= budget ? 2 : -3;
-    if (/weekend|saturday|sunday/i.test(question) && /Saturday|Sunday/i.test(course.when)) score += 2;
-    if (/evening|after work|night/i.test(question) && /7:00pm/i.test(course.when)) score += 2;
-    return { course, score };
-  }).filter(result => result.score > 0).sort((a, b) => b.score - a.score || a.course.fee - b.course.fee).slice(0, 4);
-}
-
-function showAssistantResults(question) {
-  const matches = assistantMatches(question);
-  if (!matches.length) {
-    assistantLog.innerHTML = '<p class="assistant-message">I could not find a close catalogue match. Try a topic such as bread, Thai or vegan, a level such as beginner, a campus, a day, or a budget such as “under S$500”.</p>';
-    return;
+async function showAssistantResults(question) {
+  assistantLog.innerHTML = '<p class="assistant-message">Searching the academy database…</p>';
+  try {
+    const answer = await askKnowledgeBase(question);
+    assistantLog.innerHTML = answer.html;
+  } catch (error) {
+    assistantLog.innerHTML = '<p class="assistant-message">The SQLite database could not be loaded. Please refresh the page and try again.</p>';
+    console.error(error);
   }
-  assistantLog.innerHTML = `
-    <p class="assistant-message">These catalogue courses are the closest match:</p>
-    <ul class="assistant-results">
-      ${matches.map(({ course }) => `
-        <li><a href="#course-${escapeHtml(course.code)}" data-assistant-result>
-          <strong>${escapeHtml(course.title)} · ${money(course.fee)}</strong>
-          <span>${escapeHtml(course.level)} · ${escapeHtml(course.campus)} · ${escapeHtml(course.when)}</span>
-        </a></li>`).join('')}
-    </ul>`;
 }
 
 chips.forEach(chip => chip.addEventListener('click', () => setFilter(chip.dataset.filter)));
@@ -150,7 +123,6 @@ document.querySelectorAll('[data-open-assistant]').forEach(button =>
   button.addEventListener('click', () => openAssistant(button))
 );
 document.querySelector('[data-close-assistant]').addEventListener('click', closeAssistant);
-assistantBackdrop.addEventListener('click', closeAssistant);
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && !assistant.hidden) closeAssistant();
 });

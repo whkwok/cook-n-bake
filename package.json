@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build:kb": "node scripts/build-kb.mjs"
+  },
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "^3.46.1-build2"
+  }
+}

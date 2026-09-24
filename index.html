@@ -28,7 +28,7 @@
         <p class="hero-pitch">Small-group, hands-on cooking and baking courses that teach repeatable techniques and practical, take-home outcomes.</p>
         <div class="hero-actions">
           <a class="button" href="#courses">Browse courses</a>
-          <button class="button button-secondary" type="button" data-open-assistant>Ask our course assistant</button>
+          <button class="button button-secondary" type="button" data-open-assistant>Ask the academy chatbot</button>
         </div>
       </div>
       <div class="hero-collage" aria-hidden="true">
@@ -162,28 +162,32 @@
     </div>
   </dialog>
 
+  <button class="chat-launcher" type="button" data-open-assistant aria-label="Open academy chatbot">
+    <span aria-hidden="true">?</span>
+    <span>Ask</span>
+  </button>
+
   <section id="course-assistant" class="assistant" aria-labelledby="assistant-title" hidden>
     <header class="assistant-header">
       <div>
-        <p class="eyebrow">Local course helper</p>
-        <h2 id="assistant-title">What would you like to learn?</h2>
+        <p class="eyebrow">SQLite academy chatbot</p>
+        <h2 id="assistant-title">Ask the academy database</h2>
       </div>
-      <button class="icon-button" type="button" data-close-assistant aria-label="Close course assistant">×</button>
+      <button class="icon-button" type="button" data-close-assistant aria-label="Close academy chatbot">×</button>
     </header>
-    <p class="assistant-intro">Ask about a topic, level, campus, schedule or budget. Results come only from our course catalogue.</p>
+    <p class="assistant-intro">Ask about courses, fees, intakes, allergies, refunds, parking or campuses. Answers come from the local SQLite database.</p>
     <div id="assistant-log" class="assistant-log" aria-live="polite">
-      <p class="assistant-message">Try “beginner baking”, “under S$500” or “Saturday at Bukit Timah”.</p>
+      <p class="assistant-message">Try “Any baking courses?”, “nut allergy macaron” or “Bukit Timah parking”.</p>
     </div>
     <form id="assistant-form" class="assistant-form">
-      <label for="assistant-input">Ask about our courses</label>
+      <label for="assistant-input">Ask the SQLite database</label>
       <div class="assistant-input-row">
-        <input id="assistant-input" name="question" autocomplete="off" maxlength="160" placeholder="e.g. beginner weekend class">
-        <button class="button" type="submit">Find courses</button>
+        <input id="assistant-input" name="question" autocomplete="off" maxlength="160" placeholder="e.g. under S$500">
+        <button class="button" type="submit">Ask</button>
       </div>
     </form>
   </section>
-  <div id="assistant-backdrop" class="assistant-backdrop" hidden></div>
 
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=chatbot3"></script>
 </body>
 </html>

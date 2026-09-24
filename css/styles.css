@@ -95,20 +95,30 @@ h3 { font-size: 1.28rem; }
 footer { padding: 28px clamp(18px, 5vw, 70px); display: flex; justify-content: space-between; gap: 18px; border-top: 1px solid var(--line); background: white; color: var(--muted); font-size: .9rem; }
 footer strong { color: var(--ink); }
 
-.assistant-backdrop { position: fixed; inset: 0; z-index: 39; background: rgba(43,33,27,.48); }
-.assistant { position: fixed; z-index: 40; right: 18px; bottom: 18px; width: min(440px, calc(100vw - 36px)); max-height: min(680px, calc(100vh - 36px)); overflow: auto; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 18px 70px rgba(43,33,27,.28); }
-.assistant[hidden], .assistant-backdrop[hidden] { display: none; }
+.chat-launcher { position: fixed; z-index: 38; right: 22px; bottom: 22px; min-height: 54px; padding: 8px 18px 8px 8px; display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(143,75,31,.32); border-radius: 999px; background: var(--ink); color: white; box-shadow: 0 16px 48px rgba(43,33,27,.22); cursor: pointer; font-weight: 800; }
+.chat-launcher:hover { background: var(--crust-dark); }
+.chat-launcher span:first-child { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--crust); color: white; font-family: Georgia, "Times New Roman", serif; font-size: 1.25rem; }
+.chat-launcher[hidden] { display: none; }
+.assistant { position: fixed; z-index: 40; right: 18px; bottom: 18px; width: min(430px, calc(100vw - 36px)); max-height: min(660px, calc(100vh - 36px)); overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 18px; background: white; box-shadow: 0 18px 70px rgba(43,33,27,.28); }
+.assistant[hidden] { display: none; }
 .assistant-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
-.assistant-header h2 { margin-bottom: 8px; font-size: 1.65rem; }
+.assistant-header { padding: 18px 18px 12px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, var(--cream), white); }
+.assistant-header h2 { margin-bottom: 0; font-size: 1.45rem; letter-spacing: 0; }
 .icon-button { width: 42px; height: 42px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 50%; background: var(--cream); cursor: pointer; font-size: 1.55rem; line-height: 1; }
-.assistant-intro { margin-top: 4px; color: var(--muted); }
-.assistant-log { max-height: 300px; overflow-y: auto; margin: 16px 0; display: grid; gap: 10px; }
+.assistant-intro { margin: 0; padding: 12px 18px 0; color: var(--muted); font-size: .92rem; }
+.assistant-log { min-height: 150px; max-height: 330px; overflow-y: auto; margin: 0; padding: 16px 18px; display: grid; align-content: start; gap: 10px; }
 .assistant-message { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--cream); }
+.assistant-message-answer { border: 1px solid var(--line); background: white; }
 .assistant-results { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .assistant-results a { display: block; padding: 11px 13px; border: 1px solid var(--line); border-radius: 10px; text-decoration: none; }
 .assistant-results a:hover { border-color: var(--crust); background: var(--cream); }
 .assistant-results strong, .assistant-results span { display: block; }
 .assistant-results span { color: var(--muted); font-size: .84rem; }
+.assistant-sources { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 7px; }
+.assistant-sources li { padding: 7px 9px; border: 1px solid var(--line); border-radius: 9px; background: var(--cream); font-size: .78rem; }
+.assistant-sources strong, .assistant-sources span { display: block; }
+.assistant-sources span { color: var(--muted); }
+.assistant-form { padding: 14px 18px 18px; border-top: 1px solid var(--line); background: white; }
 .assistant-form label { display: block; margin-bottom: 5px; font-size: .86rem; font-weight: 750; }
 .assistant-input-row { display: flex; gap: 8px; }
 .assistant-input-row input { min-width: 0; flex: 1; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; }
@@ -166,6 +176,7 @@ dialog::backdrop { background: rgba(43,33,27,.58); }
   .search-field { flex-basis: 100%; }
   .campus-grid { grid-template-columns: 1fr; }
   footer { flex-direction: column; }
+  .chat-launcher { right: 12px; bottom: 12px; }
   .assistant { inset: auto 10px 10px; width: auto; max-height: calc(100vh - 20px); }
   .assistant-input-row { flex-direction: column; }
   .signup-course-details { grid-template-columns: 1fr; }
