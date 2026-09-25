@@ -176,6 +176,25 @@
       <button class="icon-button" type="button" data-close-assistant aria-label="Close academy chatbot">×</button>
     </header>
     <p class="assistant-intro">Ask about courses, fees, intakes, allergies, refunds, parking or campuses. Answers come from the local SQLite database.</p>
+    <details class="assistant-settings">
+      <summary>Settings</summary>
+      <div class="assistant-mode" role="group" aria-label="Assistant mode">
+        <label>
+          <input type="radio" name="assistant-mode" value="search" checked>
+          <span>Search</span>
+        </label>
+        <label>
+          <input type="radio" name="assistant-mode" value="chatgpt">
+          <span>ChatGPT</span>
+        </label>
+      </div>
+      <label class="assistant-setting-field" for="assistant-api-key">OpenAI API key
+        <input id="assistant-api-key" type="password" autocomplete="off" placeholder="Stored for this tab only">
+      </label>
+      <label class="assistant-setting-field" for="assistant-model">Model
+        <input id="assistant-model" autocomplete="off" value="gpt-6-luna">
+      </label>
+    </details>
     <div id="assistant-log" class="assistant-log" aria-live="polite">
       <p class="assistant-message">Try “Any baking courses?”, “nut allergy macaron” or “Bukit Timah parking”.</p>
     </div>
@@ -188,6 +207,6 @@
     </form>
   </section>
 
-  <script type="module" src="js/app.js?v=chatbot3"></script>
+  <script type="module" src="js/app.js?v=chatgpt1"></script>
 </body>
 </html>

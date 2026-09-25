@@ -1,5 +1,5 @@
 import { openSignup } from './signup.js';
-import { askKnowledgeBase } from './kb-chat.js?v=chatbot3';
+import { askChatGptMode, askKnowledgeBase } from './kb-chat.js?v=chatgpt1';
 
 const COURSE_URL = 'data/courses.json';
 const REQUIRED_FIELDS = ['code', 'title', 'cat', 'level', 'weeks', 'fee', 'campus', 'img', 'when', 'summary', 'allergens', 'intakes'];
@@ -14,6 +14,9 @@ const assistant = document.querySelector('#course-assistant');
 const chatLauncher = document.querySelector('.chat-launcher');
 const assistantInput = document.querySelector('#assistant-input');
 const assistantLog = document.querySelector('#assistant-log');
+const assistantApiKey = document.querySelector('#assistant-api-key');
+const assistantModel = document.querySelector('#assistant-model');
+const assistantModeInputs = [...document.querySelectorAll('input[name="assistant-mode"]')];
 
 let courses = [];
 let activeFilter = 'All';
@@ -99,16 +102,58 @@ function closeAssistant() {
   assistantReturnFocus?.focus();
 }
 
+function assistantMode() {
+  return assistantModeInputs.find(input => input.checked)?.value || 'search';
+}
+
+function saveApiKeyForSession() {
+  const key = assistantApiKey.value.trim();
+  if (key) {
+    sessionStorage.setItem('cb_openai_key', key);
+  } else {
+    sessionStorage.removeItem('cb_openai_key');
+  }
+}
+
+function chatGptSettings() {
+  saveApiKeyForSession();
+  return {
+    apiKey: sessionStorage.getItem('cb_openai_key') || '',
+    model: assistantModel.value.trim() || 'gpt-6-luna'
+  };
+}
+
 async function showAssistantResults(question) {
-  assistantLog.innerHTML = '<p class="assistant-message">Searching the academy database…</p>';
+  const mode = assistantMode();
+  assistantLog.innerHTML = `<p class="assistant-message">${mode === 'chatgpt' ? 'Retrieving sources from SQLite…' : 'Searching the academy database…'}</p>`;
   try {
+    if (mode === 'chatgpt') {
+      const settings = chatGptSettings();
+      if (settings.apiKey) {
+        const answer = await askChatGptMode(question, settings);
+        assistantLog.innerHTML = answer.html;
+        return;
+      }
+      assistantLog.innerHTML = '<p class="assistant-message">Add an OpenAI API key in Settings to use ChatGPT mode. Showing local search results instead.</p>';
+    }
     const answer = await askKnowledgeBase(question);
     assistantLog.innerHTML = answer.html;
   } catch (error) {
-    assistantLog.innerHTML = '<p class="assistant-message">The SQLite database could not be loaded. Please refresh the page and try again.</p>';
     console.error(error);
+    try {
+      const answer = await askKnowledgeBase(question);
+      assistantLog.innerHTML = `
+        <p class="assistant-message">ChatGPT mode was unavailable, so I fell back to local search mode.</p>
+        ${answer.html}`;
+    } catch (fallbackError) {
+      console.error(fallbackError);
+      assistantLog.innerHTML = '<p class="assistant-message">The SQLite database could not be loaded. Please refresh the page and try again.</p>';
+    }
   }
 }
+
+assistantApiKey.value = sessionStorage.getItem('cb_openai_key') || '';
+assistantApiKey.addEventListener('input', saveApiKeyForSession);
 
 chips.forEach(chip => chip.addEventListener('click', () => setFilter(chip.dataset.filter)));
 searchInput.addEventListener('input', renderCourses);
