@@ -28,7 +28,7 @@
         <p class="hero-pitch">Small-group, hands-on cooking and baking courses that teach repeatable techniques and practical, take-home outcomes.</p>
         <div class="hero-actions">
           <a class="button" href="#courses">Browse courses</a>
-          <button class="button button-secondary" type="button" data-open-assistant>Ask the academy chatbot</button>
+          <button class="button button-secondary" type="button" data-open-assistant>Ask our course assistant</button>
         </div>
       </div>
       <div class="hero-collage" aria-hidden="true">
@@ -162,7 +162,49 @@
     </div>
   </dialog>
 
-  <button class="chat-launcher" type="button" data-open-assistant aria-label="Open academy chatbot">
+  <dialog id="workshop-dialog" class="workshop-dialog" aria-labelledby="workshop-title">
+    <div id="workshop-form-view">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Workshop invitation</p>
+          <h2 id="workshop-title">Free 1-hour Pastries Workshop &amp; Treat</h2>
+        </div>
+        <button class="icon-button" type="button" data-close-workshop aria-label="Close workshop invitation">×</button>
+      </div>
+      <div class="workshop-details">
+        <p><span>When</span><strong>Next Wednesday, 1:00-2:00 PM</strong></p>
+        <p><span>Where</span><strong>Our Bukit Timah campus</strong></p>
+      </div>
+      <p class="workshop-ask">Keen to join?</p>
+      <form id="workshop-form" novalidate>
+        <label class="form-field" for="workshop-name">Name
+          <input id="workshop-name" name="name" autocomplete="name" required>
+          <span class="field-error" data-error-for="workshop-name"></span>
+        </label>
+        <label class="form-field" for="workshop-mobile">Mobile
+          <input id="workshop-mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel" placeholder="9123 4567" required>
+          <span class="field-hint">Singapore mobile, 8 digits starting with 8 or 9.</span>
+          <span class="field-error" data-error-for="workshop-mobile"></span>
+        </label>
+        <label class="form-field" for="workshop-email">Email
+          <input id="workshop-email" name="email" type="email" autocomplete="email" required>
+          <span class="field-error" data-error-for="workshop-email"></span>
+        </label>
+        <div class="dialog-actions">
+          <button class="button button-secondary" type="button" data-close-workshop>Maybe later</button>
+          <button class="button" type="submit">Count me in</button>
+        </div>
+      </form>
+    </div>
+    <div id="workshop-success" class="signup-success" hidden>
+      <p class="eyebrow">Workshop sign-up saved on this device</p>
+      <h2>Thank you</h2>
+      <p>We have saved your interest in the pastries workshop.</p>
+      <button class="button button-secondary" type="button" data-close-workshop>Done</button>
+    </div>
+  </dialog>
+
+  <button class="chat-launcher" type="button" data-open-assistant aria-label="Open course assistant">
     <span aria-hidden="true">?</span>
     <span>Ask</span>
   </button>
@@ -170,36 +212,17 @@
   <section id="course-assistant" class="assistant" aria-labelledby="assistant-title" hidden>
     <header class="assistant-header">
       <div>
-        <p class="eyebrow">SQLite academy chatbot</p>
-        <h2 id="assistant-title">Ask the academy database</h2>
+        <p class="eyebrow">Course assistant</p>
+        <h2 id="assistant-title">Ask a question</h2>
       </div>
-      <button class="icon-button" type="button" data-close-assistant aria-label="Close academy chatbot">×</button>
+      <button class="icon-button" type="button" data-close-assistant aria-label="Close course assistant">×</button>
     </header>
-    <p class="assistant-intro">Ask about courses, fees, intakes, allergies, refunds, parking or campuses. Answers come from the local SQLite database.</p>
-    <details class="assistant-settings">
-      <summary>Settings</summary>
-      <div class="assistant-mode" role="group" aria-label="Assistant mode">
-        <label>
-          <input type="radio" name="assistant-mode" value="search" checked>
-          <span>Search</span>
-        </label>
-        <label>
-          <input type="radio" name="assistant-mode" value="chatgpt">
-          <span>ChatGPT</span>
-        </label>
-      </div>
-      <label class="assistant-setting-field" for="assistant-api-key">OpenAI API key
-        <input id="assistant-api-key" type="password" autocomplete="off" placeholder="Stored for this tab only">
-      </label>
-      <label class="assistant-setting-field" for="assistant-model">Model
-        <input id="assistant-model" autocomplete="off" value="gpt-6-luna">
-      </label>
-    </details>
+    <p class="assistant-intro">Ask about courses, schedules, fees, campuses, allergens and policies. Answers come from the local SQLite database.</p>
     <div id="assistant-log" class="assistant-log" aria-live="polite">
       <p class="assistant-message">Try “Any baking courses?”, “nut allergy macaron” or “Bukit Timah parking”.</p>
     </div>
     <form id="assistant-form" class="assistant-form">
-      <label for="assistant-input">Ask the SQLite database</label>
+      <label for="assistant-input">Ask a question</label>
       <div class="assistant-input-row">
         <input id="assistant-input" name="question" autocomplete="off" maxlength="160" placeholder="e.g. under S$500">
         <button class="button" type="submit">Ask</button>
@@ -207,6 +230,7 @@
     </form>
   </section>
 
-  <script type="module" src="js/app.js?v=chatgpt1"></script>
+  <script type="module" src="js/app.js?v=rag1"></script>
+  <script type="module" src="js/workshop.js"></script>
 </body>
 </html>

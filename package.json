@@ -1,7 +1,10 @@
 {
+  "type": "module",
   "scripts": {
     "build:kb": "node scripts/build-kb.mjs",
-    "build:site": "node scripts/build-site-static.mjs"
+    "build:site": "node scripts/build-site-static.mjs",
+    "check": "node scripts/check.mjs",
+    "eval": "node scripts/eval-course-assistant.mjs"
   },
   "dependencies": {
     "@sqlite.org/sqlite-wasm": "^3.46.1-build2"

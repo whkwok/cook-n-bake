@@ -5,7 +5,7 @@
 [![JavaScript](https://img.shields.io/badge/app-vanilla%20JavaScript-F7DF1E?logo=javascript&logoColor=222)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-222?logo=github&logoColor=white)](https://whkwok.github.io/cook-n-bake/)
 
-Cook & Bake Academy is a framework-free static website for a Singapore cooking and baking school. It presents the course catalogue, filters courses by category and search, supports a local course assistant, captures browser-only sign-ups, and provides an admin CSV export page.
+Cook & Bake Academy is a framework-free static website for a Singapore cooking and baking school. It presents the course catalogue, filters courses by category and search, supports a local SQLite course assistant, captures browser-only course and workshop sign-ups, and provides an admin CSV export page.
 
 Live site: https://whkwok.github.io/cook-n-bake/
 
@@ -16,6 +16,8 @@ The public site is built for a small hands-on academy with two campuses, 20 cour
 - A branded landing page with hero collage and course discovery.
 - A course grid rendered from `data/courses.json`.
 - Course sign-up through a shared browser dialog with local validation.
+- A one-time workshop invitation after 10 seconds, with Singapore mobile validation and accessible keyboard controls.
+- A browser-based SQLite course assistant grounded in the academy knowledge base.
 - Local-only sign-up storage and CSV export through `admin.html`.
 - GitHub Pages deployment through GitHub Actions.
 
@@ -25,10 +27,16 @@ The public site is built for a small hands-on academy with two campuses, 20 cour
 index.html              Public website and shared sign-up dialog
 admin.html              Local admin export screen
 css/styles.css          Brand system, layout, responsive styles
-js/app.js               Course rendering, filters, assistant
+js/app.js               Course rendering, filters, assistant UI
+js/chat.js              SQLite loading and assistant rendering
+js/rag.js               Grounded course and policy retrieval
+js/workshop.js          Timed workshop invitation and local sign-up storage
 js/signup.js            Sign-up validation and localStorage persistence
 js/admin.js             CSV export view
 data/courses.json       Course catalogue source of truth
+data/academy.db          Generated browser-ready knowledge base
+kb/                     Course brochures, campus details, FAQ and policies
+scripts/check.mjs       Syntax, knowledge base, evaluation and site checks
 .github/workflows/      GitHub Pages deployment workflow
 .agents/commands/       Project-level automation commands
 ```
@@ -51,7 +59,15 @@ Open `http://127.0.0.1:4180/`.
 
 Use plain HTML, CSS, and JavaScript. Keep fees and course details out of markup and scripts unless they are read from `data/courses.json`.
 
-Useful checks:
+Run the complete project check before publishing:
+
+```powershell
+npm run check
+```
+
+This checks JavaScript syntax, rebuilds the SQLite knowledge base, runs the assistant evaluation suite, and creates the static site in `dist/`.
+
+Catalogue counts can also be inspected directly:
 
 ```powershell
 $c = Get-Content -Raw data/courses.json | ConvertFrom-Json
